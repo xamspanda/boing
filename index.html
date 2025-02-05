@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bouncing Images</title>
+    <style>
+
+    body {
+      margin: 0;
+      overflow: hidden;
+      background-image: url('https://soggy.cat/img/soggycat.webp');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      width: 100vw;
+      height: 100vh;
+      padding-top: 700px; /* Move the image down a bit */
+    }
+      .bouncing-image {
+        position: absolute;
+        user-select: none;
+    }
+    button {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 1;
+    }
+    </style>
+  </head>
+  <body>
+    <button id="addImage">
+      <img src="https://soggy.cat/img/soggycat.webp" alt="Add Bouncing Image" style="width: 50px; height: 50px;" />
+    </button></button>
+    <script>
+      class BouncingImage {
+        constructor() {
+          this.element = document.createElement("img");
+          this.element.src = "https://soggy.cat/img/soggycat.webp"; // Random image placeholder
+          this.element.className = "bouncing-image";
+          this.element.style.width = "100px";
+          this.element.style.height = "100px";
+
+          // Starting position at the bottom
+          this.x = Math.random() * (window.innerWidth - 50);
+          this.y = window.innerHeight - 100;
+
+          // Initial velocity
+          this.dx = (Math.random() - 0.5) * 10;
+          this.dy = 0;
+
+          document.body.appendChild(this.element);
+          this.update();
+        }
+
+        update() {
+          // Randomly decide to jump
+          if (Math.random() < 0.001) {
+            this.dy = -10;
+            // Play sound
+            new Audio("boing.mp3").play();
+          }
+
+          // Gravity
+          this.dy += 0.2;
+
+          // Update position
+          this.x += this.dx;
+          this.y += this.dy;
+
+          // Bounce off walls
+          if (this.x <= 0 || this.x >= window.innerWidth - 50) {
+            this.dx *= -1;
+          }
+          if (this.y >= window.innerHeight - 100) {
+            this.dy *= -0.8;
+            this.y = window.innerHeight - 100; // Ensure it stays at the bottom
+          }
+
+          // Apply position
+          this.element.style.left = `${this.x}px`;
+          this.element.style.top = `${this.y}px`;
+
+          // Continue animation
+          requestAnimationFrame(() => this.update());
+        }
+      }
+
+      // Add image button functionality
+      document.getElementById("addImage").addEventListener("click", () => {
+        new BouncingImage();
+      });
+    </script>
+  </body>
+</html>
