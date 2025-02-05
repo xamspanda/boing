@@ -15,7 +15,7 @@
       background-repeat: no-repeat;
       width: 100vw;
       height: 100vh;
-      padding-top: 700px; /* Move the image down a bit */
+      padding-top: 800px;
     }
       .bouncing-image {
         position: absolute;
@@ -38,14 +38,14 @@
       class BouncingImage {
         constructor() {
           this.element = document.createElement("img");
-          this.element.src = "https://soggy.cat/img/soggycat.webp"; // Random image placeholder
+          this.element.src = "https://soggy.cat/img/soggycat.webp";
           this.element.className = "bouncing-image";
-          this.element.style.width = "100px";
-          this.element.style.height = "100px";
+          this.element.style.width = "5vw";
+          this.element.style.height = "5vw";
 
           // Starting position at the bottom
-          this.x = Math.random() * (window.innerWidth - 50);
-          this.y = window.innerHeight - 100;
+          this.x = Math.random() * (window.innerWidth - this.element.offsetWidth - 200);
+          this.y = window.innerHeight - this.element.offsetHeight;
 
           // Initial velocity
           this.dx = (Math.random() - 0.5) * 10;
@@ -71,12 +71,12 @@
           this.y += this.dy;
 
           // Bounce off walls
-          if (this.x <= 0 || this.x >= window.innerWidth - 50) {
+          if (this.x <= 0 || this.x >= window.innerWidth - this.element.offsetWidth) {
             this.dx *= -1;
           }
-          if (this.y >= window.innerHeight - 100) {
+          if (this.y >= window.innerHeight - this.element.offsetHeight) {
             this.dy *= -0.8;
-            this.y = window.innerHeight - 100; // Ensure it stays at the bottom
+            this.y = window.innerHeight - this.element.offsetHeight; // Ensure it stays at the bottom
           }
 
           // Apply position
